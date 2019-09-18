@@ -1,15 +1,61 @@
 <?php
 
 namespace App\Http\Requests;
-use AfricaTalking\SDK\AfricaTalking;
+use Illuminate\Support\Facades\Log;
+use AfricasTalking\SDK\AfricasTalking;
 
 class ATClient
 {
-    static function sendSMS(){
+    protected $username;
+    protected $apiKey;
+    protected $AT;
+
+    static function getATClient(){
+        $username = env('AT_USERNAME');
+        $apiKey = env('AT_API_KEY');
+        $response=[];
+        try{
+            Log::info('[ATClient::getATClient] >> connecting to AT and get new instance');
+            $AT =(new AfricasTalking($username,$apiKey));
+            ($AT) ? ($AT): null ;// $response=['error'=>'401','message'=>'Authorization Failed'];
+            return $AT;
+        }catch(Exception $e){
+            // $response=response()->json(['error'=>$e->getCode(), 'message'=>$e->getMessage()]);
+                $response = $e->getResponse();
+                $responseBodyAsString = $response->getBody()->getContents();
+            Log::error('[ATClient::getATClient] >> Exception' .json_encode($responseBodyAsString));
+        }
+    }
+
+    static function sendSMS(array $data=[]){
+        Log::info('[ATClient::sendSMS] prepare sms payload to send to AT gateway');
+        try{
+            Log::info('[ATClient::sendSMS] sms payload '.json_encode($data));
+            $AT=self::getATClient();
+            ($AT)? \response()->json( $AT->sms()->send($data) ):
+            $response=['error'=>'406','message'=>'Could Not Send SMS to AT'];
+            Log::info('[ATClient::sendSMS] >> response' .json_encode($response));
+        }catch(Excetpion $e){
+           $response=['error'=>$e->getCode(), 'message'=>$e->getMessage()];
+            Log::error('Exception' .json_encode($response));
+        }
 
     }
 
+    static function fetchMessages($data){
 
+        Log::info('[ATClient::fetchMessages] >> fetch messages');
+        try{
+            Log::info('[ATClient::fetchMessages] > fetch message payload '.json_encode($data));
+            // TO DO
+            // loop here to get messages
+            $AT=self::getATClient();($AT) ? $AT->sms()->fetchMessages([$data]) :
+            $response=['error'=>'407','message'=>'Could Not Fetch Inbox Messages from AT'];
+            Log::info('[ATClient::fetchMessages] >> response ' .json_encode($response));
+        }catch(Excetpion $e){
+            $response=['error'=>$e->getCode(), 'message'=>$e->getMessage()];
+            Log::debug('Exception' .json_encode($response));
+
+        }
     }
-
 }
