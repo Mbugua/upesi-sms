@@ -15,7 +15,7 @@ class CreateOutboxTable extends Migration
     {
         Schema::create('outbox', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('reference')->unique();
+            $table->string('reference');
             $table->string('to');
             $table->text('messages');
             $table->string('from');
