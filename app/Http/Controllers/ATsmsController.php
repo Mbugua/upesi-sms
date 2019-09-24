@@ -16,7 +16,7 @@ class ATsmsController extends Controller
     /**
      * Send sms
      */
-    function sms(Request $request){
+    function send(Request $request){
         //validate input
         $validator= Validator::make($request->all(),[
             'recipient'=>'required',
