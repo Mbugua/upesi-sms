@@ -17,15 +17,6 @@ class ATsmsController extends Controller
      * Send sms
      */
     function send(Request $request){
-        //validate input
-        $validator = Validator::make($request->all(),[
-            'recipient'=>'required',
-            'message'=>'required|max:160'
-        ])->validate();
-
-        if($request->validated()){
-
-
 
         $hash=new Hashids('upesi-sms-at-api');
         $recipient=$request->input('recipient');
@@ -47,8 +38,6 @@ class ATsmsController extends Controller
         //update original message in DB
 
         $response = ATClient::sendSMS($data);
-    }
-
         return response()->json($response);
 
     }
