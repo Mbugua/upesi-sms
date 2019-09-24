@@ -35,11 +35,12 @@ class ATClient
             ($AT)? $response= \response()->json( $AT->sms()->send($data) ):
             $response=['error'=>'406','message'=>'Could Not Send SMS to AT'];
             Log::info('[ATClient::sendSMS] >> response' .json_encode($response));
+
         }catch(Excetpion $e){
            $response=['error'=>$e->getCode(), 'message'=>$e->getMessage()];
             Log::error('Exception' .json_encode($response));
         }
-
+        return $response;
     }
 
     static function fetchMessages($data){
