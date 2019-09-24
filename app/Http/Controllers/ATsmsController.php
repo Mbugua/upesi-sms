@@ -67,6 +67,7 @@ class ATsmsController extends Controller
      * Delivery reports
      */
     function notify(Request $request){
+        Log::debug('check delivery status'.\json_encode($request->all()));
         return response()->json([$request->all()]
         ,200);
     }
