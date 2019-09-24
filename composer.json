@@ -9,6 +9,9 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-bcmath": "^7.3",
+        "ext-gd": "^7.3",
+        "doctrine/dbal": "^2.9",
         "africastalking/africastalking": "^2.2",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
