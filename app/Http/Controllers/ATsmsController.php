@@ -37,7 +37,11 @@ class ATsmsController extends Controller
         //send to que
         ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
 
-        return response()->json($response);
+        return response()->json([
+            'response'=>['status'=>'success','data'=>[
+                'message'=>'SMS sent sucessfully',
+                'statusCode'=>101,
+            ]]],200);
 
     }
     /**
