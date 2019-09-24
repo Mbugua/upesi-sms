@@ -32,7 +32,7 @@ class ATClient
         try{
             Log::info('[ATClient::sendSMS] sms payload '.json_encode($data));
             $AT=self::getATClient();
-            ($AT)? \response()->json( $AT->sms()->send($data) ):
+            ($AT)? $response= \response()->json( $AT->sms()->send($data) ):
             $response=['error'=>'406','message'=>'Could Not Send SMS to AT'];
             Log::info('[ATClient::sendSMS] >> response' .json_encode($response));
         }catch(Excetpion $e){
