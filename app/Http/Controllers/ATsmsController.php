@@ -18,15 +18,19 @@ class ATsmsController extends Controller
      */
     function send(Request $request){
         //validate input
-        $validator= Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
             'recipient'=>'required',
             'message'=>'required|max:160'
         ])->validate();
 
+        if($request->validated()){
+
+
+
         $hash=new Hashids('upesi-sms-at-api');
         $recipient=$request->input('recipient');
         $message=$request->input('message');
-        $from=env('AT_SHORTCODE');
+        $from=env('AT_SHORTCODE',$request->input('from'));
         $reference=$hash->encode(time(),intval($message,env('AT_SHORTCODE')));
         $enque=env('AT_ENQUEUE');
         $data=[
@@ -36,13 +40,14 @@ class ATsmsController extends Controller
             'reference'=>$reference,
             'enqueue'=>$enque
         ];
-        Log::debug('some shit here'.json_encode($data));
+
         //To do
         //send to que
         //get receipt
         //update original message in DB
 
         $response = ATClient::sendSMS($data);
+    }
 
         return response()->json($response);
 
