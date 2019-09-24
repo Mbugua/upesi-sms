@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Outbox extends Model
 {
-
+    protected $table='outbox';
     protected $fillable=[
         'reference',
         'to',
