@@ -17,7 +17,7 @@ class CreateOutboxTable extends Migration
             $table->bigIncrements('id');
             $table->string('reference');
             $table->string('to');
-            $table->text('messages');
+            $table->text('message');
             $table->string('from');
             $table->timestamps();
         });
