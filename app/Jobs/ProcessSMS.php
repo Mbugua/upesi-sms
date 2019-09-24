@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 use App\Models\Outbox;
-use App\Request\ATClient;
+use App\Requests\ATClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
