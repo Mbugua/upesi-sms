@@ -50,9 +50,10 @@ class ATClient
             Log::info('[ATClient::fetchMessages] > fetch message payload '.json_encode($data));
             // TO DO
             // loop here to get messages
-            $AT=self::getATClient();($AT) ? $AT->sms()->fetchMessages([$data]) :
+            $AT=self::getATClient();
+            ($AT) ? $response= \response()->json($AT->sms()->fetchMessages([$data]) ):
             $response=['error'=>'407','message'=>'Could Not Fetch Inbox Messages from AT'];
-            Log::info('[ATClient::fetchMessages] >> response ' .json_encode($response));
+            Log::info('[ATClient::fetchMessages] >> response ' .\json_encode($response));
         }catch(Excetpion $e){
             $response=['error'=>$e->getCode(), 'message'=>$e->getMessage()];
             Log::debug('Exception' .json_encode($response));
