@@ -60,6 +60,7 @@ class ATsmsController extends Controller
      *  Receive incoming messages
      */
     function incoming(Request $request){
+        Log::debug('check inbox at AT >> '.\json_encode($request->all()));
         return response()->json([$request->all()],
         200);
     }
@@ -67,7 +68,7 @@ class ATsmsController extends Controller
      * Delivery reports
      */
     function notify(Request $request){
-        Log::debug('check delivery status'.\json_encode($request->all()));
+        Log::debug('check delivery status >> '.\json_encode($request->all()));
         return response()->json([$request->all()]
         ,200);
     }
