@@ -35,7 +35,7 @@ class ATsmsController extends Controller
             'enqueue'=>$enque
         ];
         //send to que
-       $response= ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
+        ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
 
         return response()->json($response);
 
@@ -60,18 +60,50 @@ class ATsmsController extends Controller
      *  Receive incoming messages
      */
     function incoming(Request $request){
+        //{"phoneNumber":"+254797561830","failureReason":"DeliveryFailure","retryCount":"0","id":"ATXid_47f18d7e4952b41692e1e3a4e686f28d","status":"Failed","networkCode":"63902"}
+
         Log::debug('check inbox at AT >> '.\json_encode($request->all()));
+        $data=$request->all();
+        if(!$data['statuss'] ==='success' &&  !$data['data']['SMSMessageData']){
+                    return response()->json([
+                        'response'=>[
+                            'status'=>'failed',
+                            'data'=>[
+                                'message'=>'Invalid Response',
+                            ]
+                        ]
+                    ],
+        400);
+        }
         //pass requst data to queue
-        return response()->json([$request->all()],
-        200);
+
     }
     /**
      * Delivery reports
      */
     function notify(Request $request){
         Log::debug('check delivery status >> '.\json_encode($request->all()));
-        return response()->json([$request->all()]
-        ,200);
+        $data=$request->all();
+        //return a 400 incase requests timout or crap happens
+        if(!$data['status'] ==='success' &&  !$data['data']['SMSMessageData']){
+                    return response()->json([
+                        'response'=>[
+                            'status'=>'failed',
+                            'data'=>[
+                                'message'=>'Bad Request from AT endpoint',
+                                'error'=>400
+                            ]]], 400);
+        }
+        if($data['status'] ==='success'){
+            Log::debug('SMSMessageData >> '.\json_encode($data['SMSMessageData']));
+        }
+
+        return \response()->json([
+            'response'=>[
+                'data'=>[
+                    'message'=>'ok',
+                    ]]],200);
+
     }
 
     /**
