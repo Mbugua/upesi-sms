@@ -1,20 +1,19 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-class SMS extends Model
+/**
+ * Create outbox sms
+ */
+class Outbox extends Model
 {
-    use Enums;
+
     protected $fillable=[
         'reference',
         'to',
         'message',
         'from',
-        'status',
-        ''
-
     ];
 
 }

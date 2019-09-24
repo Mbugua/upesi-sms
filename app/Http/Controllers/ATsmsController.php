@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Validator;
+use App\Jobs\ProcessSMS;
 use Illuminate\Http\Request;
 use Hashids\Hashids;
 use App\Http\Requests\ATClient;
@@ -14,7 +14,10 @@ class ATsmsController extends Controller
 
     protected $lastReceivedId = 0;
     /**
-     * Send sms
+     * Send text message to AT Gateway.
+     * @param $to
+     * @param $message
+     * @param $from :AT_shortcode
      */
     function send(Request $request){
 
@@ -31,23 +34,20 @@ class ATsmsController extends Controller
             'reference'=>$reference,
             'enqueue'=>$enque
         ];
-
-        //To do
         //send to que
-        //get receipt
-        //update original message in DB
+       $response= ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
 
-        $response = ATClient::sendSMS($data);
         return response()->json($response);
 
     }
     /**
      * Fetch inbox messages in application
+     * prefer to use /api/incoming
+     * @params $request
      */
     function messages(Request $request){
         Log::info('fetching messages');
         $lastReceivedId=$request->input('lastReceivedId');
-        //'ATXid_a99c7a6504002d09a873e6399c97340b';
         $data=[
             'username'=>env('AT_USERNAME'),
             'lastReceivedId'=>$lastReceivedId
@@ -61,6 +61,7 @@ class ATsmsController extends Controller
      */
     function incoming(Request $request){
         Log::debug('check inbox at AT >> '.\json_encode($request->all()));
+        //pass requst data to queue
         return response()->json([$request->all()],
         200);
     }

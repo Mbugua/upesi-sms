@@ -17,10 +17,9 @@ class ATClient
         try{
             Log::info('[ATClient::getATClient] >> connecting to AT and get new instance');
             $AT =(new AfricasTalking($username,$apiKey));
-            ($AT) ? ($AT): null ;// $response=['error'=>'401','message'=>'Authorization Failed'];
+            ($AT) ? ($AT): null ;
             return $AT;
         }catch(Exception $e){
-            // $response=response()->json(['error'=>$e->getCode(), 'message'=>$e->getMessage()]);
                 $response = $e->getResponse();
                 $responseBodyAsString = $response->getBody()->getContents();
             Log::error('[ATClient::getATClient] >> Exception' .json_encode($responseBodyAsString));
@@ -32,7 +31,7 @@ class ATClient
         try{
             Log::info('[ATClient::sendSMS] sms payload '.json_encode($data));
             $AT=self::getATClient();
-            ($AT)? $response= \response()->json( $AT->sms()->send($data) ):
+            ($AT)? $response=  $AT->sms()->send($data) :
             $response=['error'=>'406','message'=>'Could Not Send SMS to AT'];
             Log::info('[ATClient::sendSMS] >> response' .json_encode($response));
 
@@ -51,7 +50,7 @@ class ATClient
             // TO DO
             // loop here to get messages
             $AT=self::getATClient();
-            ($AT) ? $response= \response()->json($AT->sms()->fetchMessages([$data]) ):
+            ($AT) ? $response= ($AT->sms()->fetchMessages([$data]) ):
             $response=['error'=>'407','message'=>'Could Not Fetch Inbox Messages from AT'];
             Log::info('[ATClient::fetchMessages] >> response ' .\json_encode($response));
         }catch(Excetpion $e){
