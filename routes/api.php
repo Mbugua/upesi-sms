@@ -13,15 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::post('/sms','ATsmsController@sms')->name('sms');
-Route::get('/messages','ATsmsController@messages')->name('messages');
-Route::get('/notify','ATsmsController@notify')->name('notify');
-Route::get('/incoming','ATsmsController@incoming')->name('inbox');
 
-Route::fallback(function(){
-    return response()->json(['success'=>true,
-    'data'=>['success'=>false,'error'=>404,'message'=>'Not Found']],404);
-})->name('fallback');
+Route::post('/send','ATsmsController@send');
+Route::post('/messages','ATsmsController@messages');
+Route::post('/notify','ATsmsController@notify');
+Route::post('/incoming','ATsmsController@incoming');
+
+Route::fallback('ATsmsController@notFound')->name('fallback');

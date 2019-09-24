@@ -54,10 +54,6 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
-            if ($request->is('api/*')) {
-                return \response()->json(['success'=>true,
-                 'data'=>['success'=>false,'errorCode'=>$exception->getCode(),'message'=>$exception->getMessage()]]);
-            }
             return Route::respondWithRoute('fallback');
         }
 
@@ -66,30 +62,22 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof MethodNotAllowedHttpException){
-            if ($request->is('api/*')) {
-                return \response()->json(['success'=>true,
-                 'data'=>['errorCode'=>$exception->getCode(),'message'=>$exception->getMessage()]]);
-            }
             return Route::respondWithRoute('fallback');
         }
         if($exception instanceof ClientException){
-            return \response()->json(['success'=>true,
-            'data'=>['success'=>false,'errorCode'=>$exception->getCode(),'message'=>$exception->getMessage()]]);
+             return Route::respondWithRoute('fallback');
         }
 
         if($exception instanceof RequestException){
-            return \response()->json(['success'=>true,
-            'data'=>['success'=>false,'errorCode'=>$exception->getCode(),'message'=>$exception->getMessage()]]);
+            return Route::respondWithRoute('fallback');
         }
 
         if($exception instanceof Exception){
-            return \response()->json(['success'=>true,
-            'data'=>['success'=>false,'errorCode'=>$exception->getCode(),'message'=>$exception->getMessage()]]);
+            return Route::respondWithRoute('fallback');
         }
 
         if($exception instanceof ClientErrorResponseException){
-            return \response()->json(['success'=>true,
-            'data'=>['success'=>false,'errorCode'=>$exception->getCode(),'message'=>$exception->getMessage()]]);
+             return Route::respondWithRoute('fallback');
         }
 
         return parent::render($request, $exception);

@@ -76,4 +76,19 @@ class ATsmsController extends Controller
         return response()->json([$request->all()]
         ,200);
     }
+
+    /**
+     * Return a 404 message incase of a spam request
+     * @param $request
+     */
+    function notFound(Request $request){
+        return \response()->json([
+            'response'=>[
+                'data'=>[
+                    'message'=>"Not Found",
+                    'error'=>404
+                ]
+            ]
+         ],404);
+    }
 }
