@@ -15,7 +15,7 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notification', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('outbox_reference')-nullable();
+            $table->string('outbox_reference')->nullable();
             $table->string('phoneNumber');
             $table->string('failureReason');
             $table->integer('retryCount')->nullable();
