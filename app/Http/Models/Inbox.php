@@ -17,7 +17,6 @@ class Inbox extends Model
         'linkid',
         'text',
         'to',
-        'networkcode',
         'network',
     ];
 }

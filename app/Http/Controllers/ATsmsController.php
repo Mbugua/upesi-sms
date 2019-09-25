@@ -86,7 +86,6 @@ class ATsmsController extends Controller
                'to'=>$data['to'],
                'from'=>$data['from'],
                'linkid'=>$data['linkId'],
-               'networkcode'=>$data['networkCode'],
                'network'=>'KENYA.SAFARICOM',
                 'text'=>$data['text'],
                 'messageid'=>$data['id'],
