@@ -20,8 +20,11 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        '/sms',
+        '/outbox',
+        '/inbox',
+        '/notify',
+        '/blacklist',
         '/messages',
-        '/notify'
+        '/subscription'
     ];
 }

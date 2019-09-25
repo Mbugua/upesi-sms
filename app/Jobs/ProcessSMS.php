@@ -34,11 +34,12 @@ class ProcessSMS implements ShouldQueue
     public function handle()
     {
         //save sms
-        $outbox=Outbox::create($this->data);
+        //$outbox=Outbox::create($this->data);
         //send sms to AT
-        ATClient::sendSMS($this->data);
+        $outboxSMS= ATClient::sendSMS($this->data);
+        Log::debug('outboxSMS >>'.\json_encode($outboxSMS));
         //commit transaction
-        $outbox->save();
+        // $outbox->save();
 
     }
 }

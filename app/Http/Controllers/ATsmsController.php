@@ -23,7 +23,7 @@ class ATsmsController extends Controller
      * @param $message
      * @param $from :AT_shortcode
      */
-    function send(Request $request){
+    function outbox(Request $request){
 
         $hash=new Hashids('upesi-sms-at-api');
         $recipient=$request->input('recipient');
@@ -40,7 +40,7 @@ class ATsmsController extends Controller
             'enqueue'=>$enque
         ];
         //send to queue
-        // ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
+        ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
         //to do check final response
 
         //generic response

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::post('/send','ATsmsController@send');
+Route::post('/outbox','ATsmsController@outbox');
 Route::post('/messages','ATsmsController@messages');
 Route::post('/notify','ATsmsController@notify');
 Route::post('/incoming','ATsmsController@incoming');
