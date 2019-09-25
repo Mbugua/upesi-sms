@@ -25,7 +25,7 @@ class CreateOutboxTable extends Migration
             $table->float('cost',8,2)->nullable();
             $table->timestamps();
 
-            $table->index(['reference','messageID']);
+            $table->index(['reference']);
         });
     }
 
