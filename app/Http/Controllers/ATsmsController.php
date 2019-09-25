@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Jobs\ProcessOutbox;
 use App\Jobs\ProcessNotification;
 use App\Jobs\ProcessInbox;
+use App\Jobs\ProcessBlacklist;
 
 use Illuminate\Http\Request;
 use Hashids\Hashids;
@@ -47,41 +48,24 @@ class ATsmsController extends Controller
         //generic response
         return response()->json([
             'response'=>['status'=>'success','data'=>[
-                'message'=>'SMS sent sucessfully',
-                'statusCode'=>101,
+                'message'=>'ok',
             ]]],200);
 
     }
-    /**
-     * Fetch inbox messages in application
-     * prefer to use /api/incoming
-     * @params $request
-     */
-    function messages(Request $request){
-        Log::info('fetching messages');
-        $lastReceivedId=$request->input('lastReceivedId');
-        $data=[
-            'username'=>env('AT_USERNAME'),
-            'lastReceivedId'=>$lastReceivedId
-        ];
-        $response =ATClient::fetchMessages($data);
-         return response()->json($response);
-    }
-
     /**
      *  Receive incoming messages
      */
     function incoming(Request $request){
         $data=$request->all();
+        Log::info('incoming sms >'.\json_encode($data));
            if (!$data){
                 return \response()->json(['response'=>['status'=>'failed',
                 'data'=>[
-                    'error'=>406,
+                    'error'=>400,
                     'message'=>'Unknown Request'
-                ]]],406);
+                ]]],400);
            }
            //send incoming sms to queue
-           Log::debug('incoming >>'.\json_encode($data));
            $inbox=[
                'to'=>$data['to'],
                'from'=>$data['from'],
@@ -106,6 +90,7 @@ class ATsmsController extends Controller
      */
     function notify(Request $request){
         $data=$request->all();
+        Log::info('delivery report'.\json_encode($data));
         //return a 400 incase requests timout or AT craps  itself
         if(!$data){
                     return response()->json([
@@ -142,6 +127,7 @@ class ATsmsController extends Controller
      * @param $request
      */
     function notFound(Request $request){
+        Log::info('invalid request >> fallback');
         return \response()->json([
             'response'=>['status'=>'failed',
                 'data'=>[
@@ -150,5 +136,34 @@ class ATsmsController extends Controller
                 ]
             ]
          ],404);
+    }
+
+    /**
+     * Blacklist
+     * @param $senderid
+     * @param $phonenumber
+     */
+    function blacklist(Request $request){
+         Log::info('blacklist >'.\json_encode($request->all()));
+         $data=$request->all();
+         if(!$data){
+        return \response()->json([
+                'response'=>['status'=>'failed',
+                    'data'=>[
+                        'message'=>"Not Found",
+                        'error'=>404
+                    ]
+                ]
+            ],404);
+         }
+         ProcessBlacklist::dispatch($data)->onQueue('blacklist')->delay(5);
+
+        return   \response()->json([ 'response'=>['status'=>'failed',
+                    'data'=>[
+                        'message'=>"Ok",
+                    ]
+                ]
+            ],200);
+
     }
 }
