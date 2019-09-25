@@ -21,7 +21,6 @@ class CreateOutboxTable extends Migration
             $table->string('from');
             //update message id after sending outboxsms
             $table->string('messageID')->nullable();
-            $table->string('retries');
             $table->float('cost',8,2)->nullable();
             $table->timestamps();
 
@@ -35,6 +34,6 @@ class CreateOutboxTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('oubox');
+        Schema::dropIfExists('outbox');
     }
 }
