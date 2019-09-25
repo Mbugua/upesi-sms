@@ -14,11 +14,14 @@ class CreateOutboxTable extends Migration
     public function up()
     {
         Schema::create('outbox', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('reference');
             $table->string('to');
             $table->text('message');
             $table->string('from');
+            //update message id after sending outboxsms
+            $table->string('messageID')->nullable();
+            $table->string('retries')->nullable();
             $table->timestamps();
         });
     }
