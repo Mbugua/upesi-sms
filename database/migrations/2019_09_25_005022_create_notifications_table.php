@@ -24,8 +24,6 @@ class CreateNotificationsTable extends Migration
             $table->string('network');
             $table->timestamps();
 
-            $table->index(['phoneNumber']);
-
         });
     }
 
