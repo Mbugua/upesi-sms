@@ -15,7 +15,7 @@ class Inbox extends Model
         'from',
         'messageid',
         'linkid',
-        'message',
+        'text',
         'to',
         'networkcode',
         'network',

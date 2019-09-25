@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Jobs\ProcessOutbox;
 use App\Jobs\ProcessNotification;
+use App\Jobs\ProcessInbox;
 
 use Illuminate\Http\Request;
 use Hashids\Hashids;
@@ -71,20 +72,23 @@ class ATsmsController extends Controller
      *  Receive incoming messages
      */
     function incoming(Request $request){
-        Log::debug('check inbox at AT >> '.\json_encode($request->all()));
         $data=$request->all();
-        if($data['statuss'] !='success'){
-                    return response()->json([
-                        'response'=>[
-                            'status'=>'failed',
-                            'data'=>[
-                                'message'=>'Bad Request from AT endpoint',
-                            ]
-                        ]
-                    ],
-        400);
-        }
-        //pass requst data to queue
+           if (!$data){
+                return \response()->json(['response'=>['status'=>'failed',
+                'data'=>[
+                    'error'=>406,
+                    'message'=>'Unknown Request'
+                ]]],406);
+           }
+           //send incoming sms to queue
+           ProcessInbox::dispatch($data)->onQueue('incoming_sms')->delay(3);
+        //return generic response
+        return \response()->json([
+            'response'=>[
+                'status'=>'success',
+                'data'=>[
+                    'message'=>'ok',
+                    ]]],200);
 
     }
     /**
@@ -98,9 +102,9 @@ class ATsmsController extends Controller
                         'response'=>[
                             'status'=>'failed',
                             'data'=>[
-                                'message'=>'Bad Request',
-                                'error'=>400
-                            ]]], 400);
+                                'message'=>'Unknown Request',
+                                'error'=>406
+                            ]]], 406);
         }
         if($data){
             $notifyData=[
