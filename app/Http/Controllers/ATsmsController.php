@@ -15,6 +15,8 @@ class ATsmsController extends Controller
 {
 
     protected $lastReceivedId = 0;
+    protected $reference;
+
     /**
      * Send text message to AT Gateway.
      * @param $to
@@ -27,13 +29,13 @@ class ATsmsController extends Controller
         $recipient=$request->input('recipient');
         $message=$request->input('message');
         $from=env('AT_SHORTCODE',$request->input('from'));
-        $reference=$hash->encode(time(),intval($message,env('AT_SHORTCODE')));
+        $this->reference='obx_'.$hash->encode(time(),intval($message,env('AT_SHORTCODE')));
         $enque=env('AT_ENQUEUE');
         $data=[
             'to'=>$recipient,
             'message'=>$message,
             'from'=>$from,
-            'reference'=>'obx_'.$reference,
+            'reference'=>$this->reference,
             'enqueue'=>$enque
         ];
         //send to queue
@@ -104,9 +106,17 @@ class ATsmsController extends Controller
         }
         Log::debug('SMSMessageData >> '.\json_encode($data));
         if($data){
-
+            $notifyData=[
+                'outbox_reference'=>$this->reference,
+                'phoneNumber'=>isset($data['phoneNumber'])?$data['phoneNumber']:null,
+                'failureReason'=>isset($data['failureReason'])?$data['failureReason']:null,
+                'retryCount'=>isset($data['retryCount'])?$data['retryCount']:null,
+                'messageID'=>isset($data['id'])?$data['id']:null,
+                'status'=>isset($data['status'])?$data['status']:null,
+                'networkCode'=>isset($data['networkCode'])?$data['networkCode']:null,
+            ];
             //process dlr reports
-            ProcessNotification::dispatch($data)->onQueue('delivery_reports');
+            ProcessNotification::dispatch($notifyData)->onQueue('delivery_reports');
         }
 
         return \response()->json([

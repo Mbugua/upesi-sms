@@ -31,6 +31,6 @@ class ProcessNotification implements ShouldQueue
     public function handle()
     {
         //create notification with outbox_reference as fk to outbox
-        $notification=Notifcation::create($this->data);
+        $notification=Notification::create($this->data);
     }
 }
