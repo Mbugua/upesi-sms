@@ -14,7 +14,7 @@ class CreateInboxTable extends Migration
     public function up()
     {
         Schema::create('inbox', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id');
             $table->timestamps();
         });
     }
