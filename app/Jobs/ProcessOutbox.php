@@ -38,11 +38,11 @@ class ProcessOutbox implements ShouldQueue
         $outbox=Outbox::create($this->data);
         //send sms to AT
         $outboxResponse= ATClient::sendSMS($this->data);
-        // if($outboxResponse['status']==='success'){
-        //     $outbox->cost=$outboxResponse['Recipients'];
-        // }
-        var_dump($outboxResponse['data']->SMSMessageData->Recipients);
-        Log::debug('outboxResponse >>'.\json_encode($outboxResponse['data']->SMSMessageData->Recipients));
+        if($outboxResponse['status']==='success'){
+            $outbox->cost=$outboxResponse['data']->SMSMessageData->Recipients->cost;
+        }
+
+        Log::debug('outboxResponse cost >>'.\json_encode($outbox->cost));
         //commit transaction
         // $outbox->save();
 
