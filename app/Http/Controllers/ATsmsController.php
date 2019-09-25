@@ -114,6 +114,7 @@ class ATsmsController extends Controller
                 'messageID'=>isset($data['id'])?$data['id']:null,
                 'status'=>isset($data['status'])?$data['status']:null,
                 'networkCode'=>isset($data['networkCode'])?$data['networkCode']:null,
+                'network'=>'KENYA.SAFARICOM'
             ];
             //process dlr reports
             ProcessNotification::dispatch($notifyData)->onQueue('delivery_reports');
