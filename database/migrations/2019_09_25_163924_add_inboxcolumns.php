@@ -13,7 +13,7 @@ class AddInboxcolumns extends Migration
      */
     public function up()
     {
-        $schema::create('inbox',function(Blueprint $table){
+        schema::create('inbox',function(Blueprint $table){
             $table->addColumn()->string('date');
             $table->addColumn()->string('from');
             $table->addColumn()->string('messageid');
@@ -32,6 +32,6 @@ class AddInboxcolumns extends Migration
      */
     public function down()
     {
-        $schema::dropIfExists('inbox');
+        schema::dropIfExists('inbox');
     }
 }
