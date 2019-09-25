@@ -41,8 +41,8 @@ class ProcessOutbox implements ShouldQueue
         // if($outboxResponse['status']==='success'){
         //     $outbox->cost=$outboxResponse['Recipients'];
         // }
-        var_dump($outboxResponse['data']->SMSMessageData['Recipients']);
-        Log::debug('outboxResponse >>'.\json_encode($outboxResponse['data']->SMSMessageData['Recipients']));
+        var_dump($outboxResponse['data']->SMSMessageData->Recipients);
+        Log::debug('outboxResponse >>'.\json_encode($outboxResponse['data']->SMSMessageData->Recipients));
         //commit transaction
         // $outbox->save();
 
