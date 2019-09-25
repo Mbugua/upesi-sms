@@ -93,7 +93,6 @@ class ATsmsController extends Controller
      * Delivery reports
      */
     function notify(Request $request){
-        Log::debug('check delivery status >> '.\json_encode($request->all()));
         $data=$request->all();
         //return a 400 incase requests timout or AT craps  itself
         if(!$data){
@@ -105,7 +104,6 @@ class ATsmsController extends Controller
                                 'error'=>400
                             ]]], 400);
         }
-        Log::debug('SMSMessageData >> '.\json_encode($data));
         if($data){
             $notifyData=[
                 'phoneNumber'=>isset($data['phoneNumber'])?$data['phoneNumber']:null,
@@ -116,10 +114,8 @@ class ATsmsController extends Controller
                 'networkCode'=>isset($data['networkCode'])?$data['networkCode']:null,
                 'network'=>'KENYA.SAFARICOM'
             ];
-            //process dlr reports
             ProcessNotification::dispatch($notifyData)->onQueue('delivery_reports');
         }
-
         return \response()->json([
             'response'=>[
                 'status'=>'success',
@@ -135,7 +131,7 @@ class ATsmsController extends Controller
      */
     function notFound(Request $request){
         return \response()->json([
-            'response'=>[
+            'response'=>['status'=>'failed',
                 'data'=>[
                     'message'=>"Not Found",
                     'error'=>404
