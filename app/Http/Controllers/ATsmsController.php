@@ -93,7 +93,7 @@ class ATsmsController extends Controller
         Log::debug('check delivery status >> '.\json_encode($request->all()));
         $data=$request->all();
         //return a 400 incase requests timout or AT craps  itself
-        if($data['status'] !='success'){
+        if(!$data){
                     return response()->json([
                         'response'=>[
                             'status'=>'failed',
@@ -102,11 +102,11 @@ class ATsmsController extends Controller
                                 'error'=>400
                             ]]], 400);
         }
-        Log::debug('SMSMessageData >> '.\json_encode($data['SMSMessageData']));
-        if($data['status'] ==='success'){
+        Log::debug('SMSMessageData >> '.\json_encode($data));
+        if($data){
 
             //process dlr reports
-            ProcessNotification::dispatch($data['SMSMessageData'])->onQueue('delivery_reports');
+            ProcessNotification::dispatch($data)->onQueue('delivery_reports');
         }
 
         return \response()->json([
