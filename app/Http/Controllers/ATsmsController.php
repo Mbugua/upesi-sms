@@ -102,10 +102,11 @@ class ATsmsController extends Controller
                                 'error'=>400
                             ]]], 400);
         }
+        Log::debug('SMSMessageData >> '.\json_encode($data['SMSMessageData']));
         if($data['status'] ==='success'){
-            Log::debug('SMSMessageData >> '.\json_encode($data['SMSMessageData']));
+
             //process dlr reports
-            ProcessNotification::dispatch($data['SMSMessageData'])->onQueue('delivery_reports')->delay(3);
+            ProcessNotification::dispatch($data['SMSMessageData'])->onQueue('delivery_reports');
         }
 
         return \response()->json([
