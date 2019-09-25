@@ -30,6 +30,7 @@ class ATsmsController extends Controller
         $message=$request->input('message');
         $from=env('AT_SHORTCODE',$request->input('from'));
         $this->reference='obx_'.$hash->encode(time(),intval($message,env('AT_SHORTCODE')));
+        Log::debug('reference >'.$this->reference);
         $enque=env('AT_ENQUEUE');
         $data=[
             'to'=>$recipient,
