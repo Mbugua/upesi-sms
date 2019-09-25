@@ -19,11 +19,13 @@ class CreateNotificationsTable extends Migration
             $table->string('phoneNumber');
             $table->string('failureReason');
             $table->integer('retryCount')->nullable();
-            $table->unique('messageID','notification_unique_id');
+            $table->string('messageID');
             $table->string('status');
             $table->string('networkCode');
             $table->string('network');
             $table->timestamps();
+
+            $table->unique('messageID','notification_id');
         });
     }
 
