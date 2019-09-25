@@ -15,6 +15,14 @@ class CreateInboxTable extends Migration
     {
         Schema::create('inbox', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('date');
+            $table->string('from');
+            $table->string('messageid');
+            $table->string('linkid');
+            $table->text('message');
+            $table->string('to');
+            $table->string('networkcode');
+            $table->string('network');
             $table->timestamps();
         });
     }
