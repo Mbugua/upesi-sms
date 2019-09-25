@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Jobs\ProcessSMS;
+use App\Jobs\ProcessNotification;
+
 use Illuminate\Http\Request;
 use Hashids\Hashids;
 use App\Http\Requests\ATClient;
@@ -31,12 +33,14 @@ class ATsmsController extends Controller
             'to'=>$recipient,
             'message'=>$message,
             'from'=>$from,
-            'reference'=>$reference,
+            'reference'=>'obx_'.$reference,
             'enqueue'=>$enque
         ];
-        //send to que
+        //send to queue
         ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
+        //to do check final response
 
+        //generic response
         return response()->json([
             'response'=>['status'=>'success','data'=>[
                 'message'=>'SMS sent sucessfully',
@@ -68,12 +72,12 @@ class ATsmsController extends Controller
 
         Log::debug('check inbox at AT >> '.\json_encode($request->all()));
         $data=$request->all();
-        if(!$data['statuss'] ==='success' &&  !$data['data']['SMSMessageData']){
+        if($data['statuss'] !='success'){
                     return response()->json([
                         'response'=>[
                             'status'=>'failed',
                             'data'=>[
-                                'message'=>'Invalid Response',
+                                'message'=>'Bad Request from AT endpoint',
                             ]
                         ]
                     ],
@@ -88,8 +92,8 @@ class ATsmsController extends Controller
     function notify(Request $request){
         Log::debug('check delivery status >> '.\json_encode($request->all()));
         $data=$request->all();
-        //return a 400 incase requests timout or crap happens
-        if(!$data['status'] ==='success' &&  !$data['data']['SMSMessageData']){
+        //return a 400 incase requests timout or AT craps  itself
+        if($data['status'] !='success'){
                     return response()->json([
                         'response'=>[
                             'status'=>'failed',
@@ -100,10 +104,13 @@ class ATsmsController extends Controller
         }
         if($data['status'] ==='success'){
             Log::debug('SMSMessageData >> '.\json_encode($data['SMSMessageData']));
+            //process dlr reports
+            ProcessNotification::dispatch($data['SMSMessageData'])->onQueue('delivery_reports')->delay(3);
         }
 
         return \response()->json([
             'response'=>[
+                'status'=>'success',
                 'data'=>[
                     'message'=>'ok',
                     ]]],200);

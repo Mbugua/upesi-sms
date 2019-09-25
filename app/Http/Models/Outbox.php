@@ -9,11 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class Outbox extends Model
 {
     protected $table='outbox';
+    protected $retires='1';
+
     protected $fillable=[
         'reference',
         'to',
         'message',
         'from',
+        'cost',
+        'retries',
     ];
 
 }

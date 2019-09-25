@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Jobs;
+use App\Models\Notification;
 use App\Http\Requests\ATClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,15 +12,15 @@ use Illuminate\Queue\SerializesModels;
 class ProcessNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    protected $data;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data=$data;
     }
 
     /**
@@ -29,6 +30,7 @@ class ProcessNotification implements ShouldQueue
      */
     public function handle()
     {
-        //update reports table and link outbox with reference as fk
+        //create notification with outbox_reference as fk to outbox
+        $notification=Notifcation::create($this->data);
     }
 }
