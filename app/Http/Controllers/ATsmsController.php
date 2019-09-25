@@ -40,7 +40,7 @@ class ATsmsController extends Controller
             'enqueue'=>$enque
         ];
         //send to queue
-        ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
+        // ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
         //to do check final response
 
         //generic response
