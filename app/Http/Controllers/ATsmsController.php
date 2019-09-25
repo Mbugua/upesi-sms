@@ -71,8 +71,6 @@ class ATsmsController extends Controller
      *  Receive incoming messages
      */
     function incoming(Request $request){
-        //{"phoneNumber":"+254797561830","failureReason":"DeliveryFailure","retryCount":"0","id":"ATXid_47f18d7e4952b41692e1e3a4e686f28d","status":"Failed","networkCode":"63902"}
-
         Log::debug('check inbox at AT >> '.\json_encode($request->all()));
         $data=$request->all();
         if($data['statuss'] !='success'){
@@ -100,7 +98,7 @@ class ATsmsController extends Controller
                         'response'=>[
                             'status'=>'failed',
                             'data'=>[
-                                'message'=>'Bad Request from AT endpoint',
+                                'message'=>'Bad Request',
                                 'error'=>400
                             ]]], 400);
         }
