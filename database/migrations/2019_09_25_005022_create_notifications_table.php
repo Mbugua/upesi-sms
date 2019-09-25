@@ -25,7 +25,7 @@ class CreateNotificationsTable extends Migration
             $table->string('network');
             $table->timestamps();
 
-            $table->unique('messageID','notification_id');
+        
         });
     }
 
