@@ -18,7 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('outbox_reference');
             $table->string('phoneNumber');
             $table->string('failureReason');
-            $table->string('messageID')->unique();
+            $table->unique('messageID');
             $table->string('status');
             $table->string('networkCode');
             $table->string('network');
