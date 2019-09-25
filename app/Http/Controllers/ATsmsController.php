@@ -108,7 +108,6 @@ class ATsmsController extends Controller
         Log::debug('SMSMessageData >> '.\json_encode($data));
         if($data){
             $notifyData=[
-                'outbox_reference'=>$this->reference,
                 'phoneNumber'=>isset($data['phoneNumber'])?$data['phoneNumber']:null,
                 'failureReason'=>isset($data['failureReason'])?$data['failureReason']:null,
                 'retryCount'=>isset($data['retryCount'])?$data['retryCount']:null,

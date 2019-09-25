@@ -15,7 +15,6 @@ class ATClient
         $apiKey = env('AT_API_KEY');
         $response=[];
         try{
-            Log::info('[ATClient::getATClient] >> connecting to AT and get new instance');
             $AT =(new AfricasTalking($username,$apiKey));
             ($AT) ? ($AT): null ;
             return $AT;
@@ -29,11 +28,14 @@ class ATClient
     static function sendSMS(array $data=[]){
         Log::info('[ATClient::sendSMS] prepare sms payload to send to AT gateway');
         try{
-            Log::info('[ATClient::sendSMS] sms payload '.json_encode($data));
+            // Log::info('[ATClient::sendSMS] sms payload '.json_encode($data));
             $AT=self::getATClient();
             ($AT)? $response=  $AT->sms()->send($data) :
-            $response=['error'=>'406','message'=>'Could Not Send SMS to AT'];
-            Log::info('[ATClient::sendSMS] >> response' .json_encode($response));
+            $response=['response'=>[
+                'status'=>'false',
+                'data'=>['error'=>406,'message'=>'Could Not Send SMS to AT']
+                ]];
+            // Log::info('[ATClient::sendSMS] >> response' .json_encode($response));
 
         }catch(Excetpion $e){
            $response=['error'=>$e->getCode(), 'message'=>$e->getMessage()];

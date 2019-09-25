@@ -15,7 +15,6 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notification', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('outbox_reference')->nullable();
             $table->string('phoneNumber');
             $table->string('failureReason');
             $table->integer('retryCount')->nullable();
@@ -25,6 +24,7 @@ class CreateNotificationsTable extends Migration
             $table->string('network');
             $table->timestamps();
 
+            $table->index(['messageID','phoneNumber']);
 
         });
     }

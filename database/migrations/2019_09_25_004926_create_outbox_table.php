@@ -21,8 +21,11 @@ class CreateOutboxTable extends Migration
             $table->string('from');
             //update message id after sending outboxsms
             $table->string('messageID')->nullable();
-            $table->string('retries')->nullable();
+            $table->string('retries');
+            $table->float('cost',8,2)->nullable();
             $table->timestamps();
+
+            $table->index(['reference','messageID']);
         });
     }
 
