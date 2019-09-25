@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
+
 class Notification extends Model
 {
     protected $table='notification';

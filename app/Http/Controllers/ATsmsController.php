@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Jobs\ProcessSMS;
+use App\Jobs\ProcessOutbox;
 use App\Jobs\ProcessNotification;
 
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class ATsmsController extends Controller
             'enqueue'=>$enque
         ];
         //send to queue
-        ProcessSMS::dispatch($data)->onQueue('outbound_sms')->delay(3);
+        ProcessOutbox::dispatch($data)->onQueue('outbound_sms')->delay(3);
         //to do check final response
 
         //generic response
