@@ -18,7 +18,7 @@ class CreateInboxTable extends Migration
             $table->string('date');
             $table->string('from');
             $table->string('messageid');
-            $table->string('linkId');
+            $table->string('linkid');
             $table->text('text');
             $table->string('to');
             $table->string('networkcode');

@@ -84,11 +84,12 @@ class ATsmsController extends Controller
            $inbox=[
                'to'=>$data['to'],
                'from'=>$data['from'],
-               'linkId'=>$data['linkId'],
+               'linkid'=>$data['linkId'],
                'networkcode'=>$data['networkCode'],
                'network'=>'KENYA.SAFARICOM',
                 'text'=>$data['text'],
                 'messageid'=>$data['id'],
+                'date'=>$data['date'],
                 ];
            ProcessInbox::dispatch($inbox)->onQueue('incoming_sms')->delay(3);
         //return generic response
