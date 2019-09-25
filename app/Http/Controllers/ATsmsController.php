@@ -81,7 +81,16 @@ class ATsmsController extends Controller
                 ]]],406);
            }
            //send incoming sms to queue
-           ProcessInbox::dispatch($data)->onQueue('incoming_sms')->delay(3);
+           $inbox=[
+               'to'=>$data['to'],
+               'from'=>$data['from'],
+               'linkId'=>$data['linkId'],
+               'networkcode'=>$data['networkCode'],
+               'network'=>'KENYA.SAFARICOM',
+                'text'=>$data['text'],
+                'messageid'=>$data['id'],
+                ];
+           ProcessInbox::dispatch($inbox)->onQueue('incoming_sms')->delay(3);
         //return generic response
         return \response()->json([
             'response'=>[
