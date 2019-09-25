@@ -30,9 +30,7 @@ class ProcessInbox implements ShouldQueue
     public function handle()
     {
         $inbox=Inbox::Create($this->data);
-
         $inbox->messageid=$this->data['id'];
-        $inbox->message=$this->data['text'];
         $inbox->network='KENYA.SAFARICOM';
         $inbox->save();
     }
