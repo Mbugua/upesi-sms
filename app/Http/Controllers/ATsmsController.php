@@ -81,6 +81,7 @@ class ATsmsController extends Controller
                 ]]],406);
            }
            //send incoming sms to queue
+           Log::debug('incoming >>'.\json_encode($data));
            $inbox=[
                'to'=>$data['to'],
                'from'=>$data['from'],
