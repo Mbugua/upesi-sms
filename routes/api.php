@@ -20,4 +20,4 @@ Route::post('/notify','ATsmsController@notify');
 Route::post('/incoming','ATsmsController@incoming');
 Route::post('/blacklist','ATsmsController@blacklist');
 Route::post('/subscription','ATsmsController@subscription');
-Route::fallback('ATsmsController@notFound')->name('fallback');
+Route::fallback('ATsmsController@notFound');
