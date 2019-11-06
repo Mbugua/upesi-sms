@@ -36,8 +36,10 @@ class ProcessOutbox implements ShouldQueue
     {
         //save sms
         $outbox=Outbox::create($this->data);
+        Log::info("Oubox {".\json_encode($outbox).'}');
         //send sms to AT
         $outboxResponse= ATClient::sendSMS($this->data);
+        Log::info("OuboxResponse {".\json_encode($outboxResponse).'}');
         if ($outboxResponse['status']==="false"){
             return;
         }
