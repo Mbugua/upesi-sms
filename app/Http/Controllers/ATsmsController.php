@@ -57,7 +57,7 @@ class ATsmsController extends Controller
      */
     function incoming(Request $request){
         $data=$request->all();
-        Log::info('incoming sms >'.\json_encode($data));
+        Log::info('incoming sms >>>'.\json_encode($data));
            if (!$data){
                 return \response()->json(['response'=>['status'=>'failed',
                 'data'=>[
@@ -127,7 +127,7 @@ class ATsmsController extends Controller
      * @param $request
      */
     function notFound(Request $request){
-        Log::info('invalid request >> fallback');
+        Log::info('invalid request >>>>>'.\json_encode($request->all()));
         return \response()->json([
             'response'=>['status'=>'failed',
                 'data'=>[
