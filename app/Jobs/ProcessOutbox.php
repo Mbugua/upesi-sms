@@ -43,7 +43,7 @@ class ProcessOutbox implements ShouldQueue
         if ($outboxResponse['status']==="false"){
             return;
         }
-        elseif($outboxResponse['status']==='success'){
+        elseif(($outboxResponse['status']==='success')  && (null != $outboxResponse['data']->SMSMessageData->Recipients)){
             $outbox->cost=$outboxResponse['data']->SMSMessageData->Recipients['0']->cost;
             $outbox->messageID=$outboxResponse['data']->SMSMessageData->Recipients['0']->messageId;
             $outbox->status=$outboxResponse['data']->SMSMessageData->Recipients['0']->status;
