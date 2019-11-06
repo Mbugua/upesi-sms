@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use  Illuminate\Http\Response;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,5 +19,4 @@ Route::post('/messages','ATsmsController@messages');
 Route::post('/notify','ATsmsController@notify');
 Route::post('/incoming','ATsmsController@incoming');
 Route::post('/blacklist','ATsmsController@blacklist');
-Route::post('/subscription','ATsmsController@subscription');
 Route::fallback('ATsmsController@notFound');

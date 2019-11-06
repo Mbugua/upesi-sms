@@ -62,19 +62,20 @@ class ATsmsController extends Controller
                 return \response()->json(['response'=>['status'=>'failed',
                 'data'=>[
                     'error'=>400,
-                    'message'=>'Unknown Request'
+                    'message'=>'Bad Request'
                 ]]],400);
            }
            //send incoming sms to queue
            $inbox=[
-               'to'=>$data['to'],
-               'from'=>$data['from'],
-               'linkid'=>$data['linkId'],
+               'to'=>(null !=($data['to']))?($data['to']):false,
+               'from'=>(null !=($data['from']))?($data['to']):false,
+               'linkid'=>(null !=($data['linkId']))?:false,
                'network'=>'KENYA.SAFARICOM',
-                'text'=>$data['text'],
-                'messageid'=>$data['id'],
-                'date'=>$data['date'],
-                ];
+                'text'=>(null !=($data['text']))?($data['text']):false,
+                'messageid'=>(null !=($data['id']))?($data['id']):false,
+                'date'=>(null !=($data['date']))? (null !=($data['date'])):false,
+            ];
+        Log::info('incoming sms details { '.\json_encode($inbox).'}');
            ProcessInbox::dispatch($inbox)->onQueue('incoming_sms')->delay(3);
         //return generic response
         return \response()->json([
