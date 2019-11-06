@@ -17,6 +17,6 @@ use  Illuminate\Http\Response;
 Route::post('/outbox','ATsmsController@outbox');
 Route::post('/messages','ATsmsController@messages');
 Route::post('/notify','ATsmsController@notify');
-Route::post('/incoming','ATsmsController@incoming');
+Route::post('/inbox','ATsmsController@inbox');
 Route::post('/blacklist','ATsmsController@blacklist');
 Route::fallback('ATsmsController@notFound');

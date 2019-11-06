@@ -55,7 +55,7 @@ class ATsmsController extends Controller
     /**
      *  Receive incoming messages
      */
-    function incoming(Request $request){
+    function inbox(Request $request){
         $data=(null != $request->all())? $request->all():false;
         Log::info('incoming sms >>>'.\json_encode($data));
            if (!$data){
