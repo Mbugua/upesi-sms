@@ -127,7 +127,7 @@ class ATsmsController extends Controller
      * @param $request
      */
     function notFound(Request $request){
-        Log::info('invalid request >>>>>'.\json_encode($request->all()));
+        Log::info('<<<< invalid request >>>>>'.\json_encode($request->all()));
         return \response()->json([
             'response'=>['status'=>'failed',
                 'data'=>[
