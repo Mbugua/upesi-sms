@@ -150,8 +150,8 @@ class ATsmsController extends Controller
         return \response()->json([
                 'response'=>['status'=>'failed',
                     'data'=>[
-                        'message'=>"Not Found",
-                        'error'=>404
+                        'message'=>"Bad Request",
+                        'error'=>400
                     ]
                 ]
             ],404);
