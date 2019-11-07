@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('inbox', function () {
-    return redirect('ATSmsController@inbox');
+Route::post('inbox', function () {
+    return redirect()->action('ATSmsController@inbox');
 });
