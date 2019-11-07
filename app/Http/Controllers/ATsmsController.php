@@ -69,7 +69,7 @@ class ATsmsController extends Controller
            //send incoming sms to queue
            $inbox=[
                'to'=>(null !=($data['to']))?($data['to']):false,
-               'from'=>(null !=($data['from']))?($data['to']):false,
+               'from'=>(null !=($data['from']))?($data['from']):false,
                'linkid'=>(null !=($data['linkId']))? ($data['linkId']):false,
                'network'=>'KENYA.SAFARICOM',
                 'text'=>(null !=($data['text']))?($data['text']):false,
