@@ -56,7 +56,7 @@ class ATsmsController extends Controller
      *  Receive incoming messages
      */
     function inbox(Request $request){
-        Log::debug("ATSmsController::inbox >> listening for incoming MO traffic...".\json_encode($request));
+        Log::info("ATSmsController::inbox >> listening for incoming MO traffic...");
         $data=(null != $request->all())? $request->all():false;
         Log::info('incoming sms >>>'.\json_encode($data));
            if (!$data){
@@ -67,17 +67,17 @@ class ATsmsController extends Controller
                ]]],400);
            }
            //send incoming sms to queue
-        //    $inbox=[
-        //        'to'=>(null !=($data['to']))?($data['to']):false,
-        //        'from'=>(null !=($data['from']))?($data['to']):false,
-        //        'linkid'=>(null !=($data['linkId']))?:false,
-        //        'network'=>'KENYA.SAFARICOM',
-        //         'text'=>(null !=($data['text']))?($data['text']):false,
-        //         'messageid'=>(null !=($data['id']))?($data['id']):false,
-        //         'date'=>(null !=($data['date']))? (null !=($data['date'])):false,
-        //     ];
-        // Log::info('incoming sms details { '.\json_encode($inbox).'}');
-        //    ProcessInbox::dispatch($inbox)->onQueue('incoming_sms')->delay(3);
+           $inbox=[
+               'to'=>(null !=($data['to']))?($data['to']):false,
+               'from'=>(null !=($data['from']))?($data['to']):false,
+               'linkid'=>(null !=($data['linkId']))?:false,
+               'network'=>'KENYA.SAFARICOM',
+                'text'=>(null !=($data['text']))?($data['text']):false,
+                'messageid'=>(null !=($data['id']))?($data['id']):false,
+                'date'=>(null !=($data['date']))? (null !=($data['date'])):false,
+            ];
+        Log::info('incoming sms details { '.\json_encode($inbox).'}');
+           ProcessInbox::dispatch($inbox)->onQueue('incoming_sms')->delay(3);
         //return generic response
         return \response()->json([
             'response'=>[
