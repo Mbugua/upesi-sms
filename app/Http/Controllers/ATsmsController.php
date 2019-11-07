@@ -58,7 +58,6 @@ class ATsmsController extends Controller
     function inbox(Request $request){
         Log::info("ATSmsController::inbox >> listening for incoming MO traffic...");
         $data=(null != $request->all())? $request->all():false;
-        Log::info('incoming sms >>>'.\json_encode($data));
            if (!$data){
                 return \response()->json(['response'=>['status'=>'failed',
                 'data'=>[
@@ -71,12 +70,12 @@ class ATsmsController extends Controller
                'to'=>(null !=($data['to']))?($data['to']):false,
                'from'=>(null !=($data['from']))?($data['from']):false,
                'linkid'=>(null !=($data['linkId']))? ($data['linkId']):false,
-               'network'=>'KENYA.SAFARICOM',
+               'network'=>(null !=($data['networkCode']))? ($data['networkCode']):'unknown',
                 'text'=>(null !=($data['text']))?($data['text']):false,
                 'messageid'=>(null !=($data['id']))?($data['id']):false,
-                'date'=>(null !=($data['date']))? (null !=($data['date'])):false,
+                'date'=>(null !=($data['date']))? ($data['date']):false,
             ];
-        Log::info('incoming sms details { '.\json_encode($inbox).'}');
+        Log::info('processing inbox details >> { '.\json_encode($inbox).'}');
            ProcessInbox::dispatch($inbox)->onQueue('incoming_sms')->delay(3);
         //return generic response
         return \response()->json([
