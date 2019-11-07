@@ -56,6 +56,7 @@ class ATsmsController extends Controller
      *  Receive incoming messages
      */
     function inbox(Request $request){
+        Log::debug("ATSmsController::inbox >> listening for incoming MO traffic...".\json_encode($request));
         $data=(null != $request->all())? $request->all():false;
         Log::info('incoming sms >>>'.\json_encode($data));
            if (!$data){
