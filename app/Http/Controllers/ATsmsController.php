@@ -70,7 +70,7 @@ class ATsmsController extends Controller
            $inbox=[
                'to'=>(null !=($data['to']))?($data['to']):false,
                'from'=>(null !=($data['from']))?($data['to']):false,
-               'linkid'=>(null !=($data['linkId']))?:false,
+               'linkid'=>(null !=($data['linkId']))? ($data['linkId']):false,
                'network'=>'KENYA.SAFARICOM',
                 'text'=>(null !=($data['text']))?($data['text']):false,
                 'messageid'=>(null !=($data['id']))?($data['id']):false,
